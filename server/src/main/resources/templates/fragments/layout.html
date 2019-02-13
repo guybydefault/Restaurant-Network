@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/html" lang="en" th:fragment="layout (content, head, menu, scripts)">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Мы подбираем для Вас лучшие киносеансы!">
+    <link rel="icon" href="/assets/images/icons/favicon16.png">
+
+
+    <title>КиноГайд - Ваш проводник в мире кино</title>
+
+
+    <!-- STYLES -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/main.css" rel="stylesheet" type="  text/css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- JAVASCRIPT -->
+    <script defer src='/js/jquery-3.3.1.js'></script>
+    <script defer src="/js/bootstrap.min.js"></script>
+    <th:block th:replace="${scripts}"></th:block>
+
+    <th:block th:include="${head}"></th:block>
+</head>
+<body>
+
+<th:block th:include="~{fragments/header :: header (${menu})}"/>
+
+<main role="main" class="container">
+    <th:block th:include="${content}"></th:block>
+</main>
+
+<th:block th:include="~{fragments/footer  :: footer (${menu})}"/>
+
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::content},~{::head}, 'error', ~{::scripts})}">
+<head>
+
+</head>
+<body>
+<th:block th:fragment="content">
+    <div class="starter-template">
+        <h1>Что-то пошло не так</h1>
+        <p class="lead" th:text="${error}">Упс! Текст ошибки</p>
+        <a href="/">На главную</a>
+    </div>
+</th:block>
+<th:block th:fragment="scripts">
+    <!--// Сеня, скрипты везде на страницах вставлять вот так вот, в это место-->
+    <!--// JQuery и прочая бурда уже подключена в fragments/layout.html-->
+</th:block>
+</body>
+</html>

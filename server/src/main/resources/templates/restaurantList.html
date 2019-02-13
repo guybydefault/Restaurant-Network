@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::content},~{::head},'Афиша', ~{::scripts})}">
+<head>
+
+</head>
+<body>
+<th:block th:fragment="content">
+    <div>
+
+    </div>
+    <table>
+        <th:block th:each="film : ${restaurants}">
+            <tr>
+                <td>
+                    <a
+                </td>
+                <td th:text="${film.name}">
+                    Название фильма
+                </td>
+                <td th:text="${film.info}">
+                    Краткая информация
+                </td>
+                <td th:text="${#temporals.format(film.datePremiere.atZone(zoneOffset), 'yyyy', #locale)}">
+                        Год
+                </td>
+                <td>
+                    <span th:each="genre : ${film.genreList}" th:text="${genre.name}">Жанр</span>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</th:block>
+<th:block th:fragment="scripts">
+    <script>
+        // Сеня, скрипты везде на страницах вставлять вот так вот, в это место
+        // JQuery и прочая бурда уже подключена в fragments/layout.html
+    </script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::content},~{::head},'Cooks', ~{::scripts})}">
+<head>
+
+</head>
+<body>
+<th:block th:fragment="content">
+    <div>
+    </div>
+    <table>
+        <th:block th:each="cook : ${cookList}">
+            <tr>
+                <td th:text="${cook.fullName}">
+
+                </td>
+                <td th:text="${cook.restaurant.name}">
+                    Restaurant name
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</th:block>
+<th:block th:fragment="scripts">
+    <script>
+
+    </script>
+</th:block>
+</body>
+</html>
