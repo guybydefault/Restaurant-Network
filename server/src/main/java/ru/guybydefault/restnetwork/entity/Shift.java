@@ -1,48 +1,52 @@
 package ru.guybydefault.restnetwork.entity;
 
-import org.optaplanner.core.api.domain.entity.PlanningEntity;
-import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
+import com.fasterxml.jackson.annotation.*;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import java.time.Duration;
-import java.time.OffsetDateTime;
-import java.time.Period;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 @Entity
-@PlanningEntity
 public class Shift extends BaseEntity {
-
 
     /**
      * Employee
      */
-    @ManyToOne
-    @PlanningVariable(valueRangeProviderRefs = "cookRange")
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Cook cook;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Restaurant restaurant;
 
     @ManyToOne
     @NotNull
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Cuisine cuisine;
 
     @NotNull
-    private OffsetDateTime startDateTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Instant startDateTime;
 
     @NotNull
-    private OffsetDateTime endDateTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Instant endDateTime;
 
 
     public Shift() {
 
     }
 
-    public Shift(@NotNull Restaurant restaurant, Cook cook, @NotNull Cuisine cuisine, @NotNull OffsetDateTime startDateTime, @NotNull OffsetDateTime endDateTime) {
+    public Shift(@NotNull Restaurant restaurant, Cook cook, @NotNull Cuisine cuisine, @NotNull Instant startDateTime, @NotNull Instant endDateTime) {
         this.restaurant = restaurant;
         this.cook = cook;
         this.cuisine = cuisine;
@@ -66,25 +70,25 @@ public class Shift extends BaseEntity {
         this.cuisine = cuisine;
     }
 
-    public OffsetDateTime getStartDateTime() {
+    public Instant getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(OffsetDateTime startDateTime) {
+    public void setStartDateTime(Instant startDateTime) {
         this.startDateTime = startDateTime;
     }
 
-    public OffsetDateTime getEndDateTime() {
+    public Instant getEndDateTime() {
         return endDateTime;
     }
 
-    public void setEndDateTime(OffsetDateTime endDateTime) {
+    public void setEndDateTime(Instant endDateTime) {
         this.endDateTime = endDateTime;
     }
 
     @Override
     public String toString() {
-        return cook.getFullName() + " ID" + cook.getId() +" "+ getCuisine().getName() + " [" + startDateTime + " - " + endDateTime + "] ";
+        return cook.getFullName() + " ID" + cook.getId() + " " + getCuisine().getName() + " [" + startDateTime + " - " + endDateTime + "] ";
     }
 
     public Restaurant getRestaurant() {
@@ -95,15 +99,35 @@ public class Shift extends BaseEntity {
         this.restaurant = restaurant;
     }
 
+    @JsonIgnore
     public boolean isEarly() {
         return !isLate();
     }
 
+    @JsonIgnore
     public boolean isLate() {
-        return endDateTime.isAfter(startDateTime.withHour(17).withMinute(0));
+        return endDateTime.atOffset(ZoneOffset.ofHours(3)).isAfter(startDateTime.atOffset(ZoneOffset.ofHours(3)).withHour(17).withMinute(0));
     }
 
+    @JsonIgnore
     public long getDurationHours() {
         return ChronoUnit.HOURS.between(startDateTime, endDateTime);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Shift shift = (Shift) o;
+        return
+                Objects.equals(restaurant, shift.restaurant) &&
+                        Objects.equals(cuisine, shift.cuisine) &&
+                        Objects.equals(startDateTime, shift.startDateTime) &&
+                        Objects.equals(endDateTime, shift.endDateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(restaurant, cuisine, startDateTime, endDateTime);
     }
 }

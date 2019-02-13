@@ -1,22 +1,20 @@
 package ru.guybydefault.restnetwork.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table
 public class Cuisine extends BaseEntity{
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
-//    @OneToMany(mappedBy = "cuisine")
-//    private List<Shift> shiftList;
-//
-//    @OneToMany(mappedBy = "cuisine")
-//    private List<CookCertification> cookCertificationList;
+    @OneToMany(mappedBy = "cuisine", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CuisineCertification> cookCertificationList;
 
     public Cuisine() {
 
@@ -45,5 +43,13 @@ public class Cuisine extends BaseEntity{
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public List<CuisineCertification> getCookCertificationList() {
+        return cookCertificationList;
+    }
+
+    public void setCookCertificationList(List<CuisineCertification> cookCertificationList) {
+        this.cookCertificationList = cookCertificationList;
     }
 }

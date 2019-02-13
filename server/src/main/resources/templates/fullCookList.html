@@ -9,13 +9,26 @@
     <div>
     </div>
     <table>
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Restaurant Name</th>
+            <th>Certification</th>
+        </tr>
         <th:block th:each="cook : ${cookList}">
             <tr>
-                <td th:text="${cook.fullName}">
-
+                <td th:text="${cook.id}">
+                    Cook ID
                 </td>
-                <td th:text="${cook.restaurant.name}">
-                    Restaurant name
+                <td th:text="${cook.fullName}">
+                    Full name
+                </td>
+                <td th:object="${cook.restaurant.name}">
+                    <a th:href="@{list(restaurantId=${cook.restaurant.id})}"
+                       th:text="${cook.restaurant.name}"></a>
+                </td>
+                <td th:text="${T(ru.guybydefault.restnetwork.util.StringUtil).formCookCertificationsString(cook.getCuisineCertificationList())}">
+                    Certification list
                 </td>
             </tr>
         </th:block>

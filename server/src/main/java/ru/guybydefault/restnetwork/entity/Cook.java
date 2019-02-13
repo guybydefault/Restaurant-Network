@@ -1,33 +1,35 @@
 package ru.guybydefault.restnetwork.entity;
 
 
-import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 public class Cook extends BaseEntity {
 
     private String fullName;
 
-    @OneToMany(mappedBy = "cook")
+    @OneToMany(mappedBy = "cook", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
+    @JsonIgnore
     private List<Shift> shiftList;
 
     @ManyToOne
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "cook")
-    private Set<CookCertification> cookCertificationsSet;
+    @OneToMany(mappedBy = "cook", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private List<CuisineCertification> cuisineCertificationList;
 
     @Embedded
+    @JsonUnwrapped
     private CookPreferences cookPreferences;
 
     public boolean hasCertification(Cuisine cuisine) {
-        return cookCertificationsSet.stream()
+        return cuisineCertificationList.stream()
                 .anyMatch(c -> c.getCuisine().equals(cuisine));
     }
 
@@ -47,12 +49,12 @@ public class Cook extends BaseEntity {
         this.restaurant = restaurant;
     }
 
-    public Set<CookCertification> getCookCertificationsSet() {
-        return cookCertificationsSet;
+    public List<CuisineCertification> getCuisineCertificationList() {
+        return cuisineCertificationList;
     }
 
-    public void setCookCertificationsSet(Set<CookCertification> cookCertificationsSet) {
-        this.cookCertificationsSet = cookCertificationsSet;
+    public void setCuisineCertificationList(List<CuisineCertification> cuisineCertificationList) {
+        this.cuisineCertificationList = cuisineCertificationList;
     }
 
     public String getFullName() {
@@ -77,14 +79,12 @@ public class Cook extends BaseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         Cook cook = (Cook) o;
         return Objects.equals(fullName, cook.fullName) &&
-                Objects.equals(shiftList, cook.shiftList) &&
                 Objects.equals(restaurant, cook.restaurant) &&
-                Objects.equals(cookCertificationsSet, cook.cookCertificationsSet) &&
                 Objects.equals(cookPreferences, cook.cookPreferences);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fullName, shiftList, restaurant, cookCertificationsSet, cookPreferences);
+        return Objects.hash(fullName, restaurant, cookPreferences);
     }
 }

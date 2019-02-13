@@ -1,4 +1,4 @@
-package ru.guybydefault.restnetwork.planning;
+package ru.guybydefault.restnetwork.planning.genetic;
 
 public class GeneticAlgorithmConfiguration {
     public final int populationSize;

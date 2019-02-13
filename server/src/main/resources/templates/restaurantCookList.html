@@ -6,16 +6,23 @@
 </head>
 <body>
 <th:block th:fragment="content">
-    <div>
-    </div>
+    <h2>
+        Cooks of the <span th:text="${restaurant.name}"></span>
+    </h2>
     <table>
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Certification</th>
+        </tr>
         <th:block th:each="cook : ${cookList}">
             <tr>
+                <td th:text="${cook.id}"></td>
                 <td th:text="${cook.fullName}">
-
+                    Full name
                 </td>
-                <td th:text="${cook.restaurant.name}">
-                    Restaurant name
+                <td th:text="${T(ru.guybydefault.restnetwork.util.StringUtil).formCookCertificationsString(cook.getCuisineCertificationList())}">
+                    Certification list
                 </td>
             </tr>
         </th:block>

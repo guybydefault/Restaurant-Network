@@ -3,6 +3,7 @@ package ru.guybydefault.restnetwork.planning;
 import ru.guybydefault.restnetwork.entity.Cook;
 import ru.guybydefault.restnetwork.entity.Cuisine;
 import ru.guybydefault.restnetwork.entity.Restaurant;
+import ru.guybydefault.restnetwork.util.Util;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -25,10 +26,13 @@ public class PlanningData {
 
     private HashMap<Cuisine, ArrayList<Cook>> cuisineCookHashMap;
 
-    public PlanningData(OffsetDateTime startPlanningDateTime, OffsetDateTime endPlanningDateTime, int workingDayHours, int minShiftHours, int maxShiftHours, List<Cuisine> cuisineList, List<Cook> cookList, Restaurant restaurant) {
+    private ArrayList<int[]> shiftHoursTemplates;
+
+
+    public PlanningData(OffsetDateTime startPlanningDateTime, OffsetDateTime endPlanningDateTime, int minShiftHours, int maxShiftHours, List<Cuisine> cuisineList, List<Cook> cookList, Restaurant restaurant) {
         this.startPlanningDateTime = startPlanningDateTime;
         this.endPlanningDateTime = endPlanningDateTime;
-        this.workingDayHours = workingDayHours;
+        this.workingDayHours = restaurant.getWorkingDayHours();
         this.minShiftHours = minShiftHours;
         this.maxShiftHours = maxShiftHours;
         this.cuisineList = cuisineList;
@@ -44,7 +48,9 @@ public class PlanningData {
                 }
             });
         });
+        shiftHoursTemplates = Util.generateSumCombinations(minShiftHours, maxShiftHours, workingDayHours);
     }
+
 
     public OffsetDateTime getStartPlanningDateTime() {
         return startPlanningDateTime;
