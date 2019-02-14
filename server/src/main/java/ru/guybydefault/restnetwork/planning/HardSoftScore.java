@@ -1,6 +1,6 @@
 package ru.guybydefault.restnetwork.planning;
 
-public class HardSoftScore implements Comparable<HardSoftScore> {
+public class HardSoftScore implements Comparable<HardSoftScore>, Cloneable {
 
     private final int hardScore;
     private final int softScore;
@@ -25,6 +25,18 @@ public class HardSoftScore implements Comparable<HardSoftScore> {
 
     public int getSoftScore() {
         return softScore;
+    }
+
+    @Override
+    public Object clone() {
+        HardSoftScore copy = null;
+        try {
+            copy = (HardSoftScore) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // this shouldn't happen, since we are Cloneable
+            throw new InternalError(e);
+        }
+        return copy;
     }
 
     @Override

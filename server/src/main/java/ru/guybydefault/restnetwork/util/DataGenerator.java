@@ -3,9 +3,7 @@ package ru.guybydefault.restnetwork.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.guybydefault.restnetwork.entity.*;
-import ru.guybydefault.restnetwork.planning.genetic.GeneticAlgorithm;
-import ru.guybydefault.restnetwork.planning.genetic.GeneticAlgorithmConfiguration;
-import ru.guybydefault.restnetwork.util.StringDataGenerator;
+
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;

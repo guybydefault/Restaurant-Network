@@ -4,22 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.guybydefault.restnetwork.entity.Cuisine;
 import ru.guybydefault.restnetwork.entity.Restaurant;
-import ru.guybydefault.restnetwork.planning.genetic.GeneticAlgorithm;
-import ru.guybydefault.restnetwork.planning.genetic.GeneticAlgorithmConfiguration;
 import ru.guybydefault.restnetwork.repository.CuisineRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class RosterIncrementSolutionBuilder {
 
-    public void build(PlanningData planningData) {
+    PriorityQueue<RosterIncrementSolution> rosterIncrementSolutionQueue = new PriorityQueue<>();
 
+    public void build(PlanningData planningData) {
 //        int workingDayHours = restaurant.getWorkingDayHours();
 
 

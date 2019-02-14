@@ -87,4 +87,9 @@ public class Cook extends BaseEntity {
     public int hashCode() {
         return Objects.hash(fullName, restaurant, cookPreferences);
     }
+
+    @Override
+    public String toString() {
+        return fullName;
+    }
 }
