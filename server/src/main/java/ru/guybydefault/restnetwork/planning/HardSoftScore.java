@@ -1,22 +1,23 @@
 package ru.guybydefault.restnetwork.planning;
 
-public class HardSoftScore implements Comparable<HardSoftScore> {
+public class HardSoftScore implements Comparable<HardSoftScore>, Cloneable {
 
-    private final int hardScore;
-    private final int softScore;
+    private int hardScore;
+    private int softScore;
 
     public HardSoftScore(int hardScore, int softScore) {
         this.hardScore = hardScore;
         this.softScore = softScore;
     }
 
-    public HardSoftScore addHard(int s) {
-        return new HardSoftScore(hardScore + s, softScore);
+
+    public void minusHard(int s) {
+        hardScore -= s;
     }
 
 
-    public HardSoftScore addSoft(int s) {
-        return new HardSoftScore(hardScore, softScore + s);
+    public void minusSoft(int s) {
+        softScore -= s;
     }
 
     public int getHardScore() {
@@ -28,11 +29,23 @@ public class HardSoftScore implements Comparable<HardSoftScore> {
     }
 
     @Override
+    public Object clone() {
+        HardSoftScore copy = null;
+        try {
+            copy = (HardSoftScore) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // this shouldn't happen, since we are Cloneable
+            throw new InternalError(e);
+        }
+        return copy;
+    }
+
+    @Override
     public int compareTo(HardSoftScore o) {
         if (this.getHardScore() - o.getHardScore() != 0) {
-            return this.getHardScore() - o.getHardScore();
+            return o.getHardScore() - this.getHardScore();
         }
-        return this.getSoftScore() - o.getSoftScore();
+        return o.getSoftScore() - this.getSoftScore();
     }
 
     @Override

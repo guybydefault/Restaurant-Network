@@ -72,7 +72,7 @@ $('#calendar').fullCalendar({
                     event.start = moment(event.startDateTime);
                     event.end = moment(event.endDateTime);
                     event.resourceId = event.cuisine;
-                    event.title = event.cook.fullName;
+                    event.title = event.cook ? event.cook.fullName : 'UNASSIGNED';
                     events.push(event);
                 });
                 callback(events);
@@ -84,9 +84,13 @@ $('#calendar').fullCalendar({
 
 function buildScheduleForMonthSinceNow() {
     $.ajax({
-       url: '/api/shifts/buildRoster',
-        type: 'GET'
+        url: '/api/shifts/buildRoster',
+        data:
+            {restaurantId: restaurantId},
+        type: 'GET',
+        success: function() {
+            $('#calendar').fullCalendar('refetchEvents');
+        }
     });
-    $('#calendar').fullCalendar('refetchEvents');
 
 }

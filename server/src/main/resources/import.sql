@@ -22,26 +22,26 @@ SET row_security = off;
 -- Data for Name: restaurant; Type: TABLE DATA; Schema: public; Owner: restnetwork
 --
 
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (1, 'Gor''kovskiy avenue 3', 'Los Angeles Cafe', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (2, 'Kronverkskiy boulevard 4', 'San Francisco Restaurant', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (4, 'Karl Marks street 6', 'Santa Barbara Bakery', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (3, 'Lenina ave 5', 'Las Vegas Bistro', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (5, 'Max Karl square 7', 'New York Snack Bar', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (6, 'Angels hall 8', 'Fort Collins Tavern', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (7, 'Moonshine park 9', 'Mount Vernon Teahouse', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (8, 'Rome mall 10', 'Saint Peter Coffeehouse', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (9, 'Vinyl st. 11', 'Little Rock Sweetshop', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (10, 'Vanilla station 12', 'El Paso Steakhouse', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (11, 'Gor''kovskiy avenue 4', 'Los Angeles Restaurant', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (12, 'Kronverkskiy boulevard 5', 'San Francisco Bistro', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (13, 'Lenina ave 6', 'Las Vegas Bakery', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (14, 'Karl Marks street 7', 'Santa Barbara Snack Bar', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (15, 'Max Karl square 8', 'New York Tavern', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (16, 'Angels hall 9', 'Fort Collins Teahouse', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (17, 'Moonshine park 10', 'Mount Vernon Coffeehouse', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (18, 'Rome mall 11', 'Saint Peter Sweetshop', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (19, 'Vinyl st. 12', 'Little Rock Steakhouse', 10, 23, 'UTC+03:00');
-INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (20, 'Vanilla station 3', 'El Paso Cafe', 10, 23, 'UTC+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (1, 'Gor''kovskiy avenue 3', 'Los Angeles Cafe', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (2, 'Kronverkskiy boulevard 4', 'San Francisco Restaurant', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (4, 'Karl Marks street 6', 'Santa Barbara Bakery', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (3, 'Lenina ave 5', 'Las Vegas Bistro', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (5, 'Max Karl square 7', 'New York Snack Bar', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (6, 'Angels hall 8', 'Fort Collins Tavern', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (7, 'Moonshine park 9', 'Mount Vernon Teahouse', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (8, 'Rome mall 10', 'Saint Peter Coffeehouse', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (9, 'Vinyl st. 11', 'Little Rock Sweetshop', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (10, 'Vanilla station 12', 'El Paso Steakhouse', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (11, 'Gor''kovskiy avenue 4', 'Los Angeles Restaurant', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (12, 'Kronverkskiy boulevard 5', 'San Francisco Bistro', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (13, 'Lenina ave 6', 'Las Vegas Bakery', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (14, 'Karl Marks street 7', 'Santa Barbara Snack Bar', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (15, 'Max Karl square 8', 'New York Tavern', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (16, 'Angels hall 9', 'Fort Collins Teahouse', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (17, 'Moonshine park 10', 'Mount Vernon Coffeehouse', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (18, 'Rome mall 11', 'Saint Peter Sweetshop', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (19, 'Vinyl st. 12', 'Little Rock Steakhouse', 10, 0, '+03:00');
+INSERT INTO public.restaurant (id, address, name, starting_hour, closing_hour, zone_offset) VALUES (20, 'Vanilla station 3', 'El Paso Cafe', 10, 0, '+03:00');
 
 
 --

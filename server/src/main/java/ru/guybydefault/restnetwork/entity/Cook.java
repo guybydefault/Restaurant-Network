@@ -12,7 +12,7 @@ public class Cook extends BaseEntity {
 
     private String fullName;
 
-    @OneToMany(mappedBy = "cook", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
+    @OneToMany(mappedBy = "cook", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Shift> shiftList;
 
@@ -86,5 +86,10 @@ public class Cook extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(fullName, restaurant, cookPreferences);
+    }
+
+    @Override
+    public String toString() {
+        return fullName;
     }
 }
