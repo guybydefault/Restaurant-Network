@@ -36,6 +36,12 @@ public class PlanningData {
         this.workingDayHours = restaurant.getWorkingDayHours();
         this.minShiftHours = minShiftHours;
         this.maxShiftHours = maxShiftHours;
+        if (minShiftHours > maxShiftHours) {
+            throw new IllegalArgumentException("minShiftHours can not be greater than maxShiftHours");
+        }
+        if (maxShiftHours > workingDayHours) {
+            throw new IllegalArgumentException("maxShiftHours can not be greater than workingDayHours");
+        }
         this.cuisineList = cuisineList;
         this.restaurant = restaurant;
 

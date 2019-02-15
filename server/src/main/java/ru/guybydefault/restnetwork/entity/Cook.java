@@ -12,7 +12,7 @@ public class Cook extends BaseEntity {
 
     private String fullName;
 
-    @OneToMany(mappedBy = "cook", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
+    @OneToMany(mappedBy = "cook", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Shift> shiftList;
 

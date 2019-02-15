@@ -1,5 +1,7 @@
 package ru.guybydefault.restnetwork.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -14,6 +16,7 @@ public class Cuisine extends BaseEntity{
     private String name;
 
     @OneToMany(mappedBy = "cuisine", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<CuisineCertification> cookCertificationList;
 
     public Cuisine() {

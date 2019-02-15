@@ -1,6 +1,7 @@
 package ru.guybydefault.restnetwork.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,14 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import ru.guybydefault.restnetwork.entity.Cuisine;
 import ru.guybydefault.restnetwork.entity.Restaurant;
 import ru.guybydefault.restnetwork.entity.Shift;
-import ru.guybydefault.restnetwork.planning.PlanningData;
-import ru.guybydefault.restnetwork.planning.RosterIncrementSolutionBuilder;
+import ru.guybydefault.restnetwork.planning.*;
 import ru.guybydefault.restnetwork.repository.CuisineRepository;
-import ru.guybydefault.restnetwork.response.ErrorMessage;
 import ru.guybydefault.restnetwork.repository.RestaurantRepository;
 import ru.guybydefault.restnetwork.repository.ShiftRepository;
+import ru.guybydefault.restnetwork.response.ErrorMessage;
 
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +35,10 @@ public class ShiftRestController {
     @Autowired
     private CuisineRepository cuisineRepository;
 
+
     @Autowired
-    private RosterIncrementSolutionBuilder rosterIncrementSolutionBuilder;
+    @Qualifier("defaultPlanningConfiguration")
+    private PlanningConfiguration planningConfiguration;
 
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -43,7 +48,6 @@ public class ShiftRestController {
     }
 
     /**
-     *
      * @param restaurantId
      * @return
      * @throws IllegalArgumentException if restaurantId is null or restaurant by this id has not been found
@@ -63,20 +67,30 @@ public class ShiftRestController {
     public List<Shift> getShiftsByRestaurantAndDates(@RequestParam Integer restaurantId,
                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end) {
-       Restaurant restaurant = findRestaurantById(restaurantId);
+        Restaurant restaurant = findRestaurantById(restaurantId);
         return shiftRepository.findAllByRestaurantAndStartDateTimeBetweenOrEndDateTimeBetween(restaurant, start, end, start, end);
     }
 
     @RequestMapping(value = "buildRoster", method = RequestMethod.GET)
-    public String buildSchedule(Restaurant restaurant) {
+    public ResponseEntity<HardSoftScore> buildMonthSchedule(Integer restaurantId) {
+        Restaurant restaurant = findRestaurantById(restaurantId);
         OffsetDateTime startPlanningTime = OffsetDateTime.of(LocalDate.now(), LocalTime.of(restaurant.getStartingHour(), 0), restaurant.getZoneOffset());
         OffsetDateTime endPlanningTime = startPlanningTime.plusDays(30).withHour(restaurant.getClosingHour());
 
         List<Cuisine> cuisineList = new ArrayList<>();
-        cuisineRepository.findAll().forEach(c -> {cuisineList.add(c);});
+        cuisineRepository.findAll().forEach(c -> {
+            cuisineList.add(c);
+        });
 
-        PlanningData planningData = new PlanningData(startPlanningTime, endPlanningTime, 4, 14, cuisineList, restaurant.getCooks(), restaurant);
-
-        return "hey";
+        RosterIncrementSolutionBuilder rosterIncrementSolutionBuilder = new RosterIncrementSolutionBuilder(planningConfiguration);
+        PlanningData planningData = new PlanningData(startPlanningTime, endPlanningTime, 4, 10, cuisineList, restaurant.getCooks(), restaurant);
+        RosterIncrementSolution rosterIncrementSolution = rosterIncrementSolutionBuilder.build(planningData);
+        for (List<Shift> shiftDay : rosterIncrementSolution.getShiftDayList()) {
+            for (Shift shift : shiftDay) {
+                shiftRepository.save(shift);
+            }
+        }
+        rosterIncrementSolutionBuilder = null;
+        return new ResponseEntity<HardSoftScore>(rosterIncrementSolution.getHardSoftScore(), HttpStatus.OK);
     }
 }
