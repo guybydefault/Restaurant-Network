@@ -8,4 +8,12 @@ Data generation script is located in resources folder and is names 'import.sql'.
 ```
 spring.jpa.hibernate.ddl-auto = create-drop
 ```
-data is loaded in database each time application starts and it is dropped from database after.
+data is loaded in database each time application starts and is dropped from database after.
+
+## Screenshots
+
+![screen 1](./screenshots/1.png)
+![screen 2](./screenshots/2.png)
+
+
+
