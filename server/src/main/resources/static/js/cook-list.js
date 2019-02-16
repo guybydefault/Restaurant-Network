@@ -34,11 +34,11 @@ function setCuisineCertification(cookId, cuisineId) {
         success: function (result) {
             let certificationBadge = $('#cs-' + cookId + '-' + cuisineId);
             if (result.message === 'deleted') {
-                certificationBadge.removeClass('badge-success');
-                certificationBadge.addClass('badge-secondary');
+                certificationBadge.removeClass('btn-success');
+                certificationBadge.addClass('btn-secondary');
             } else {
-                certificationBadge.addClass('badge-success');
-                certificationBadge.removeClass('badge-secondary');
+                certificationBadge.addClass('btn-success');
+                certificationBadge.removeClass('btn-secondary');
             }
         },
         timeout: AJAX_TIMEOUT,

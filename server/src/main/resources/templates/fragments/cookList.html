@@ -7,7 +7,7 @@
         <th scope="col">ID</th>
         <th scope="col">Full Name</th>
         <th scope="col">Restaurant Name</th>
-        <th scope="col">Cuisine certification</th>
+        <th scope="col">Cuisine certification (Editable)</th>
         <th scope="col">More</th>
     </tr>
     </thead>
@@ -30,11 +30,11 @@
             </td>
             <td>
                 <a th:each="cuisine : ${cuisines}"
-                   th:classappend="${cook.hasCertification(cuisine)} ? badge-success : badge-secondary"
+                   th:classappend="${cook.hasCertification(cuisine)} ? btn-success : btn-secondary"
                    th:attr="
                    id=${'cs-' + cook.id + '-' + cuisine.id},
                    onclick=${'setCuisineCertification(' + cook.id + ', ' + cuisine.id + ');'}"
-                   th:text="${cuisine.name}" class="badge"
+                   th:text="${cuisine.name}" class="btn-sm"
                    style="color: white; margin-right: 5px;">
                     <i class="far fa-trash-alt"></i>
                     Delete
