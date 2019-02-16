@@ -33,7 +33,7 @@ public class Restaurant extends BaseEntity {
     @Convert(converter = ZoneOffsetJpaConverter.class)
     private ZoneOffset zoneOffset;
 
-    @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Cook> cooks;
 
     @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.ALL}, orphanRemoval = true)

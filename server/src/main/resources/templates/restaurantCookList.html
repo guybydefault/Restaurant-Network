@@ -9,29 +9,16 @@
     <h2>
         Cooks of the <span th:text="${restaurant.name}"></span>
     </h2>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Certification</th>
-        </tr>
-        <th:block th:each="cook : ${cookList}">
-            <tr>
-                <td th:text="${cook.id}"></td>
-                <td th:text="${cook.fullName}">
-                    Full name
-                </td>
-                <td th:text="${T(ru.guybydefault.restnetwork.util.StringUtil).formCookCertificationsString(cook.getCuisineCertificationList())}">
-                    Certification list
-                </td>
-            </tr>
-        </th:block>
-    </table>
+    <a th:href="@{createCook}" role="button" class="btn btn-primary" style="margin-bottom: 15px;">
+        <i class="far fa-plus-square"></i>
+        <span>Add new cook</span>
+    </a>
+    <th:block th:include="~{fragments/cookList :: cookListFragment (${cookList})}"/>
+</th:block>
+</table>
 </th:block>
 <th:block th:fragment="scripts">
-    <script>
-
-    </script>
+    <script src="/js/cook-list.js"></script>
 </th:block>
 </body>
 </html>

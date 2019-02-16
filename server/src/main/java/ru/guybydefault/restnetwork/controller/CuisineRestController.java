@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.guybydefault.restnetwork.entity.Cuisine;
-import ru.guybydefault.restnetwork.repository.CuisineRepository;
-
-import java.util.List;
+import ru.guybydefault.restnetwork.entity.repository.CuisineRepository;
 
 @RestController
 @RequestMapping("/api/cuisines")

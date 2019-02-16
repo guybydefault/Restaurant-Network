@@ -6,20 +6,22 @@
 </head>
 <body>
 <th:block th:fragment="content">
-    <div>
-    </div>
-    <table>
+    <h1>List of restaurants</h1>
+    <table class="table">
+        <thead class="thead-dark">
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Actions</th>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Location</th>
+            <th scope="col">More</th>
         </tr>
+        </thead>
+        <tbody>
         <th:block th:each="restaurant : ${restaurantList}">
             <tr>
-                <td th:text="${restaurant.id}">
+                <th th:text="${restaurant.id}" scope="row">
                     ID
-                </td>
+                </th>
                 <td th:text="${restaurant.name}">
                     Name
                 </td>
@@ -27,10 +29,17 @@
                     Location
                 </td>
                 <td>
-                    <a th:href="@{schedule(restaurantId=${restaurant.id})}">Schedule</a>
+                    <a th:href="@{schedule(restaurantId=${restaurant.id})}" class="badge badge-primary"> <i
+                            class="far fa-calendar-check"></i>
+                        Roster</a>
+                    <a th:href="@{/cooks/list(restaurantId=${restaurant.id})}" class="badge badge-primary">
+                        <i class="far fa-user"></i>
+                        Cooks</a>
+
                 </td>
             </tr>
         </th:block>
+        </tbody>
     </table>
 </th:block>
 <th:block th:fragment="scripts">

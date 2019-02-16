@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.guybydefault.restnetwork.entity.Restaurant;
-import ru.guybydefault.restnetwork.repository.RestaurantRepository;
-import ru.guybydefault.restnetwork.repository.ShiftRepository;
+import ru.guybydefault.restnetwork.entity.repository.RestaurantRepository;
+import ru.guybydefault.restnetwork.entity.repository.ShiftRepository;
 
 @Controller
 @RequestMapping(value = {"/restaurants", "/index.html", ""})
@@ -35,7 +35,6 @@ public class RestaurantController {
             throw  new IllegalArgumentException("Restaurant with ID " + restaurantId + " not found");
         }
         model.addAttribute("restaurant", restaurant);
-//        shiftRepository.findAllByRestaurant(restaurant);
         return "schedule";
     }
 }

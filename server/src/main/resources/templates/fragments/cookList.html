@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="cookListFragment (cookList)">
+<div class="alert alert-light"> Cuisine certifications can be edited in cuisine certification column of the table.</div>
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Full Name</th>
+        <th scope="col">Restaurant Name</th>
+        <th scope="col">Cuisine certification</th>
+        <th scope="col">More</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="cook : ${cookList}">
+        <tr th:attr="id = ${'cook-' + cook.id}">
+            <th scope="row" th:text="${cook.id}">
+                Cook ID
+            </th>
+            <td th:text="${cook.fullName}">
+                Full name
+            </td>
+            <td th:object="${cook.restaurant.name}">
+                <span th:text="${cook.restaurant.name}"></span>
+                <a th:href="@{/restaurants/schedule(restaurantId=${cook.restaurant.id})}" style="margin-left: 5px;"> <i
+                        class="far fa-calendar-check"></i></a>
+                <a th:href="@{list(restaurantId=${cook.restaurant.id})}">
+                    <i class="far fa-user"></i>
+                </a>
+            </td>
+            <td>
+                <a th:each="cuisine : ${cuisines}"
+                   th:classappend="${cook.hasCertification(cuisine)} ? badge-success : badge-secondary"
+                   th:attr="
+                   id=${'cs-' + cook.id + '-' + cuisine.id},
+                   onclick=${'setCuisineCertification(' + cook.id + ', ' + cuisine.id + ');'}"
+                   th:text="${cuisine.name}" class="badge"
+                   style="color: white;">
+                    <i class="far fa-trash-alt"></i>
+                    Delete
+                </a>
+            </td>
+            <td>
+                <a th:attr="id = ${'cook-toggletip-'+ cook.id}" class="badge badge-light" data-toggle="tooltip"
+                   data-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                    <i class="fas fa-sliders-h"></i>
+                    Shift preferences
+                </a>
+                <a th:href="@{cook/__${cook.id}__/update}" class="badge badge-primary">
+                    <i class="far fa-edit"></i>
+                    Edit
+                </a>
+                <a th:attr="onclick='deleteCook(' + ${cook.id} + ');'" class="badge badge-primary"
+                   style="color: white;">
+                    <i class="far fa-trash-alt"></i>
+                    Delete
+                </a>
+                <div th:attr="id = ${'cook-toggletip-'+ cook.id + '-info'}" style="display:none;">
+                    <span>Hours per day (available):</span> <span
+                        th:text="${cook.cookPreferences.availableHoursPerDay}"/></br>
+                    <span>Hours per day (preferred):</span> <span
+                        th:text="${cook.cookPreferences.preferredHoursPerDay}"/></br>
+                    <span>Shift schedule:</span> <span
+                        th:text="${cook.cookPreferences.workDays + '/' + cook.cookPreferences.weekDays}"/></br>
+
+                    <span>Early shifts:</span> <span
+                        th:text="${cook.cookPreferences.isAvailableEarlyShifts() ? 'yes' : 'no'}"/></br>
+                    <span>Late shifts:</span> <span
+                        th:text="${cook.cookPreferences.isAvailableLateShifts() ? 'yes' : 'no'}"/></br>
+                </div>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>

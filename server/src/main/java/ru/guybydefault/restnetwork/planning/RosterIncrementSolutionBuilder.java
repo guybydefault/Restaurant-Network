@@ -45,7 +45,7 @@ public class RosterIncrementSolutionBuilder {
         if (dayIndex == reproductionResetEliteDayIndex) {
             rosterIncrementSolutionArrayList.sort(rosterSolutionComparator);
             List<RosterIncrementSolution> eliteSolutions = new ArrayList<>();
-            for (int i = 0; i < conf.getEliteSolutionsNumber(); i++) {
+            for (int i = 0; i < conf.getEliteSolutionsNumber() && i < rosterIncrementSolutionArrayList.size(); i++) {
                 RosterIncrementSolution eliteSolution = rosterIncrementSolutionArrayList.get(i);
                 eliteSolution.setGeneration(0);
             }

@@ -213,13 +213,13 @@ public class RosterIncrementSolution implements Cloneable {
                         Cook cook = selectedCookList.get(shiftAssignment.indexOf(i));
                         shift.setCook(cook);
                         CookPreferences cookPreferences = cook.getCookPreferences();
-                        if (!cookPreferences.prefersLateShifts() && shift.isLate() || !cookPreferences.prefersEarlyShifts() && shift.isEarly()) {
+                        if (!cookPreferences.isAvailableLateShifts() && shift.isLate() || !cookPreferences.isAvailableEarlyShifts() && shift.isEarly()) {
                             hardSoftScore.minusHard(1);
                         }
                         if (shift.getDurationHours() > cookPreferences.getAvailableHoursPerDay()) {
                             hardSoftScore.minusHard(((int) shift.getDurationHours() - cookPreferences.getAvailableHoursPerDay()));
                         }
-                        hardSoftScore.minusSoft(Math.abs((int) shift.getDurationHours() - cookPreferences.getPreferedHoursPerDay()));
+                        hardSoftScore.minusSoft(Math.abs((int) shift.getDurationHours() - cookPreferences.getPreferredHoursPerDay()));
 
                     }
                     shiftDayList.get(shiftDayIndex).add(shift);
@@ -242,10 +242,11 @@ public class RosterIncrementSolution implements Cloneable {
                 cuisineIndex = 0;
                 shiftDayList.add(new ArrayList<>());
                 for (CookShiftSequenceInfo cookShiftSequenceInfo : shiftSequenceInfoHashMap.values()) {
-                    cookShiftSequenceInfo.isFreeToday = true;
-                    if (cookShiftSequenceInfo.remainingWeekDays > 0) {
+                    if (cookShiftSequenceInfo.isFreeToday && cookShiftSequenceInfo.remainingWeekDays > 0) {
                         cookShiftSequenceInfo.remainingWeekDays--;
                     }
+                    cookShiftSequenceInfo.isFreeToday = true;
+
                 }
                 planningStage = PlanningStage.SHIFT_TEMPLATE_SELECTION;
                 break;

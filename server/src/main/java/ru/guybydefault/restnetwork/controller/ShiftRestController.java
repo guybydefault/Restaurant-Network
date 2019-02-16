@@ -10,10 +10,11 @@ import ru.guybydefault.restnetwork.entity.Cuisine;
 import ru.guybydefault.restnetwork.entity.Restaurant;
 import ru.guybydefault.restnetwork.entity.Shift;
 import ru.guybydefault.restnetwork.planning.*;
-import ru.guybydefault.restnetwork.repository.CuisineRepository;
-import ru.guybydefault.restnetwork.repository.RestaurantRepository;
-import ru.guybydefault.restnetwork.repository.ShiftRepository;
+import ru.guybydefault.restnetwork.entity.repository.CuisineRepository;
+import ru.guybydefault.restnetwork.entity.repository.RestaurantRepository;
+import ru.guybydefault.restnetwork.entity.repository.ShiftRepository;
 import ru.guybydefault.restnetwork.response.ErrorMessage;
+import ru.guybydefault.restnetwork.response.RestControllerResponseMessage;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -68,11 +69,11 @@ public class ShiftRestController {
                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end) {
         Restaurant restaurant = findRestaurantById(restaurantId);
-        return shiftRepository.findAllByRestaurantAndStartDateTimeBetweenOrEndDateTimeBetween(restaurant, start, end, start, end);
+        return shiftRepository.findAllByRestaurantBetweenDates(restaurant, start, end);
     }
 
     @RequestMapping(value = "buildRoster", method = RequestMethod.GET)
-    public ResponseEntity<HardSoftScore> buildMonthSchedule(Integer restaurantId) {
+    public ResponseEntity<RestControllerResponseMessage> buildMonthSchedule(Integer restaurantId) {
         Restaurant restaurant = findRestaurantById(restaurantId);
         OffsetDateTime startPlanningTime = OffsetDateTime.of(LocalDate.now(), LocalTime.of(restaurant.getStartingHour(), 0), restaurant.getZoneOffset());
         OffsetDateTime endPlanningTime = startPlanningTime.plusDays(30).withHour(restaurant.getClosingHour());
@@ -91,6 +92,6 @@ public class ShiftRestController {
             }
         }
         rosterIncrementSolutionBuilder = null;
-        return new ResponseEntity<HardSoftScore>(rosterIncrementSolution.getHardSoftScore(), HttpStatus.OK);
+        return new ResponseEntity<RestControllerResponseMessage>(new RestControllerResponseMessage(HttpStatus.OK.value(), rosterIncrementSolution.getHardSoftScore().toString()), HttpStatus.OK);
     }
 }
