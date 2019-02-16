@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::content},~{::head},'Schedule', ~{::scripts})}">
+<head>
+    <link href='/css/fullcalendar/fullcalendar.css' rel='stylesheet'/>
+    <link href='/css/fullcalendar/scheduler.css' rel='stylesheet'/>
+</head>
+<body>
+<th:block th:fragment="content">
+    <h1>Shift roster of <span th:text="${restaurant.name}"></span></h1>
+    <div>
+        <button class="btn btn-primary" onclick="buildScheduleForMonthSinceNow()">
+            <i class="far fa-calendar-check"></i>
+            <span>Build roster for the next month starting today</span>
+        </button>
+        <input id="restaurantId" type="hidden" th:attr="value = ${restaurant.id}"/>
+    </div>
+    <div id='calendar' style="margin-top: 20px;">
+
+    </div>
+</th:block>
+<th:block th:fragment="scripts">
+    <script defer src='/js/fullcalendar/moment.min.js'></script>
+    <script defer src='/js/fullcalendar/fullcalendar.js'></script>
+    <script defer src='/js/fullcalendar/scheduler.js'></script>
+    <script defer src='/js/schedule.js'></script>
+</th:block>
+</body>
+</html>

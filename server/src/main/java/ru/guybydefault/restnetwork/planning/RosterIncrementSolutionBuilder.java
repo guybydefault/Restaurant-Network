@@ -1,54 +1,75 @@
 package ru.guybydefault.restnetwork.planning;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ru.guybydefault.restnetwork.entity.Cuisine;
-import ru.guybydefault.restnetwork.entity.Restaurant;
-import ru.guybydefault.restnetwork.planning.genetic.GeneticAlgorithm;
-import ru.guybydefault.restnetwork.planning.genetic.GeneticAlgorithmConfiguration;
-import ru.guybydefault.restnetwork.repository.CuisineRepository;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-@Component
-public class RosterBuilder {
+public class RosterIncrementSolutionBuilder {
 
-    public RosterSolution build(Restaurant restaurant) {
-        build(restaurant, 30);
+    private PlanningConfiguration conf;
+
+    private int reproductionResetEliteDayIndex;
+
+    private int dayIndex = 0;
+    private int dayEndPlanning;
+
+    private final Comparator<RosterIncrementSolution> rosterSolutionComparator = new Comparator<RosterIncrementSolution>() {
+        @Override
+        public int compare(RosterIncrementSolution o1, RosterIncrementSolution o2) {
+            if (o1.getShiftDayIndex() != o2.getShiftDayIndex()) {
+                return o2.getShiftDayIndex() - o1.getShiftDayIndex();
+            }
+            return o1.getHardSoftScore().compareTo(o2.getHardSoftScore());
+        }
+    };
+
+    ArrayList<RosterIncrementSolution> rosterIncrementSolutionArrayList = new ArrayList<>();
+
+    public RosterIncrementSolutionBuilder(PlanningConfiguration conf) {
+        this.conf = conf;
     }
 
-    public RosterSolution build(Restaurant restaurant, int numberOfDays) {
-       return build(restaurant, startPlanningTime, endPlanningTime);
+    private void nextDay() {
+        List<List<RosterIncrementSolution>> branchingSolutions = new ArrayList<>();
+        for (RosterIncrementSolution rosterIncrementSolution : rosterIncrementSolutionArrayList) {
+            rosterIncrementSolution.setReproductionRate(1d / (rosterIncrementSolution.getGeneration() + 1) * conf.getStartingReproductionRate());
+            while (rosterIncrementSolution.getShiftDayIndex() < dayIndex + 1) {
+                branchingSolutions.add(rosterIncrementSolution.nextStep());
+            }
+        }
+        if (dayIndex == reproductionResetEliteDayIndex) {
+            rosterIncrementSolutionArrayList.sort(rosterSolutionComparator);
+            List<RosterIncrementSolution> eliteSolutions = new ArrayList<>();
+            for (int i = 0; i < conf.getEliteSolutionsNumber() && i < rosterIncrementSolutionArrayList.size(); i++) {
+                RosterIncrementSolution eliteSolution = rosterIncrementSolutionArrayList.get(i);
+                eliteSolution.setGeneration(0);
+            }
+        }
+        if (rosterIncrementSolutionArrayList.size() > conf.getMaxSolutionSize()) {
+            rosterIncrementSolutionArrayList.sort(rosterSolutionComparator);
+            rosterIncrementSolutionArrayList.subList(rosterIncrementSolutionArrayList.size() - conf.getMaxSolutionSize(), rosterIncrementSolutionArrayList.size()).clear();
+        }
+        branchingSolutions.forEach(solutionBranch -> {
+            rosterIncrementSolutionArrayList.addAll(solutionBranch);
+        });
+        dayIndex++;
     }
 
-    public void build(PlanningData planningData) {
-//        int workingDayHours = restaurant.getWorkingDayHours();
+    public RosterIncrementSolution build(PlanningData planningData) {
+        reproductionResetEliteDayIndex = conf.getReproductionResetEliteInterval();
+        dayIndex = 0;
+        dayEndPlanning = (int) ChronoUnit.DAYS.between(planningData.getStartPlanningDateTime(), planningData.getEndPlanningDateTime());
 
-
-//
-//        GeneticAlgorithmConfiguration configuration = GeneticAlgorithmConfiguration.buildDefaultParametrization();
-//        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(data, configuration);
-//
-//        Population population = new Population(configuration.populationSize, data).sortByScore();
-//        System.out.println(population.getRosterSolutionList().get(0).getHardSoftScore());
-//
-//        for (int generationNumber = 0; generationNumber < 1000; generationNumber++) {
-//            population = geneticAlgorithm.evolve(population).sortByScore();
-//            System.out.println(population.getRosterSolutionList().get(0).getHardSoftScore());
-//        }
-//        RosterSolution bestRosterSolution = population.getRosterSolutionList().get(0);
-//        System.out.println(bestRosterSolution.getHardSoftScore());
-//
-//        bestRosterSolution.getShiftDayList().forEach(day -> {
-//            day.forEach(shift -> {
-//                entityManager.persist(shift);
-//            });
-//        });
+        rosterIncrementSolutionArrayList.add(new RosterIncrementSolution(planningData));
+        while (dayIndex != dayEndPlanning) {
+            nextDay();
+        }
+        rosterIncrementSolutionArrayList.sort(rosterSolutionComparator);
+        return rosterIncrementSolutionArrayList.get(0);
     }
-
 }

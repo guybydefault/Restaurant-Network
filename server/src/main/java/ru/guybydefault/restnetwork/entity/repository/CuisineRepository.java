@@ -1,4 +1,4 @@
-package ru.guybydefault.restnetwork.repository;
+package ru.guybydefault.restnetwork.entity.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import ru.guybydefault.restnetwork.entity.Cuisine;

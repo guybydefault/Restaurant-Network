@@ -1,11 +1,9 @@
-package ru.guybydefault.restnetwork.planning;
+package ru.guybydefault.restnetwork.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.guybydefault.restnetwork.entity.*;
-import ru.guybydefault.restnetwork.planning.genetic.GeneticAlgorithm;
-import ru.guybydefault.restnetwork.planning.genetic.GeneticAlgorithmConfiguration;
-import ru.guybydefault.restnetwork.util.StringDataGenerator;
+
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -90,29 +88,29 @@ public class DataGenerator {
 
         }
 
-        OffsetDateTime startPlanningTime = OffsetDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZoneOffset.ofHours(3)).withHour(10);
-        OffsetDateTime endPlanningTime = startPlanningTime.plusDays(30);
-        PlanningData data = new PlanningData(startPlanningTime, endPlanningTime, 14, 4, 10, cuisineList, cookList, restaurantList.get(0));
-
-        GeneticAlgorithmConfiguration configuration = GeneticAlgorithmConfiguration.buildDefaultParametrization();
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(data, configuration);
-
-        Population population = new Population(configuration.populationSize, data).sortByScore();
-        System.out.println(population.getRosterIncrementSolutionList().get(0).getHardSoftScore());
-
-        for (int generationNumber = 0; generationNumber < 1000; generationNumber++) {
-            population = geneticAlgorithm.evolve(population).sortByScore();
-            System.out.println(population.getRosterIncrementSolutionList().get(0).getHardSoftScore());
-        }
-        RosterIncrementSolution bestRosterIncrementSolution = population.getRosterIncrementSolutionList().get(0);
-        System.out.println(bestRosterIncrementSolution.getHardSoftScore());
-
-        bestRosterIncrementSolution.getShiftDayList().forEach(day -> {
-            day.forEach(shift -> {
-                entityManager.persist(shift);
-            });
-        });
-        entityManager.flush();
+//        OffsetDateTime startPlanningTime = OffsetDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZoneOffset.ofHours(3)).withHour(10);
+//        OffsetDateTime endPlanningTime = startPlanningTime.plusDays(30);
+//        PlanningData data = new PlanningData(startPlanningTime, endPlanningTime, 14, 4, 10, cuisineList, cookList, restaurantList.get(0));
+//
+//        GeneticAlgorithmConfiguration configuration = GeneticAlgorithmConfiguration.buildDefaultParametrization();
+//        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(data, configuration);
+//
+//        Population population = new Population(configuration.populationSize, data).sortByScore();
+//        System.out.println(population.getRosterIncrementSolutionList().get(0).getHardSoftScore());
+//
+//        for (int generationNumber = 0; generationNumber < 1000; generationNumber++) {
+//            population = geneticAlgorithm.evolve(population).sortByScore();
+//            System.out.println(population.getRosterIncrementSolutionList().get(0).getHardSoftScore());
+//        }
+//        RosterIncrementSolution bestRosterIncrementSolution = population.getRosterIncrementSolutionList().get(0);
+//        System.out.println(bestRosterIncrementSolution.getHardSoftScore());
+//
+//        bestRosterIncrementSolution.getShiftDayList().forEach(day -> {
+//            day.forEach(shift -> {
+//                entityManager.persist(shift);
+//            });
+//        });
+//        entityManager.flush();
     }
 
 

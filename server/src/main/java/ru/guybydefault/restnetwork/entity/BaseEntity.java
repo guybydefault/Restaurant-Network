@@ -1,5 +1,7 @@
 package ru.guybydefault.restnetwork.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -18,6 +20,7 @@ public class BaseEntity {
         this.id = id;
     }
 
+    @JsonIgnore
     public boolean isNew() {
         return id == null;
     }

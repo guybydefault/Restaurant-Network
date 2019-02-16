@@ -109,6 +109,34 @@ public class StringDataGenerator {
     public static StringDataGenerator buildLocationNames() {
         return new StringDataGenerator()
                 .addPart(true, 0,
+                        "Gor'kovskiy",
+                        "Kronverkskiy",
+                        "Lenina",
+                        "Karl Marks",
+                        "Max Karl",
+                        "Angels",
+                        "Moonshine",
+                        "Rome",
+                        "Vinyl",
+                        "Vanilla")
+                .addPart(true, 1,
+                        "avenue",
+                        "boulevard",
+                        "ave",
+                        "street",
+                        "square",
+                        "hall",
+                        "park",
+                        "mall",
+                        "st.",
+                        "station")
+                .addNumericPart(true, 2, 3, 13);
+
+    }
+
+    public static StringDataGenerator buildRestaurantNames() {
+        return new StringDataGenerator()
+                .addPart(true, 0,
                         "Los",
                         "San",
                         "Las",
@@ -130,28 +158,18 @@ public class StringDataGenerator {
                         "Peter",
                         "Rock",
                         "Paso")
-                .addPart(false, 2,
-                        "Town",
-                        "City",
-                        "Falls",
-                        "Ville",
-                        "Field",
-                        "Polis",
-                        "Shire",
-                        "Berg",
-                        "Borough",
-                        "Island")
-                .addPart(false, 3,
-                        "AL",
-                        "CA",
-                        "DE",
-                        "FL",
-                        "GA",
-                        "HI",
-                        "IN",
-                        "KS",
-                        "LA",
-                        "ME");
+                .addPart(true, 2,
+                        "Cafe",
+                        "Restaurant",
+                        "Bistro",
+                        "Bakery",
+                        "Snack Bar",
+                        "Tavern",
+                        "Teahouse",
+                        "Coffeehouse",
+                        "Sweetshop",
+                        "Steakhouse"
+                        );
     }
 
     public static StringDataGenerator buildAssemblyLineNames() {

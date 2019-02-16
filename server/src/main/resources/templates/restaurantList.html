@@ -1,40 +1,50 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout (~{::content},~{::head},'Афиша', ~{::scripts})}">
+      th:replace="~{fragments/layout :: layout (~{::content},~{::head},'Restaurants', ~{::scripts})}">
 <head>
 
 </head>
 <body>
 <th:block th:fragment="content">
-    <div>
-
-    </div>
-    <table>
-        <th:block th:each="film : ${restaurants}">
+    <h1>List of restaurants</h1>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Location</th>
+            <th scope="col">More</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="restaurant : ${restaurantList}">
             <tr>
-                <td>
-                    <a
+                <th th:text="${restaurant.id}" scope="row">
+                    ID
+                </th>
+                <td th:text="${restaurant.name}">
+                    Name
                 </td>
-                <td th:text="${film.name}">
-                    Название фильма
-                </td>
-                <td th:text="${film.info}">
-                    Краткая информация
-                </td>
-                <td th:text="${#temporals.format(film.datePremiere.atZone(zoneOffset), 'yyyy', #locale)}">
-                        Год
+                <td th:text="${restaurant.address}">
+                    Location
                 </td>
                 <td>
-                    <span th:each="genre : ${film.genreList}" th:text="${genre.name}">Жанр</span>
+                    <a th:href="@{schedule(restaurantId=${restaurant.id})}" class="badge badge-primary"> <i
+                            class="far fa-calendar-check"></i>
+                        Roster</a>
+                    <a th:href="@{/cooks/list(restaurantId=${restaurant.id})}" class="badge badge-primary">
+                        <i class="far fa-user"></i>
+                        Cooks</a>
+
                 </td>
             </tr>
         </th:block>
+        </tbody>
     </table>
 </th:block>
 <th:block th:fragment="scripts">
     <script>
-        // Сеня, скрипты везде на страницах вставлять вот так вот, в это место
-        // JQuery и прочая бурда уже подключена в fragments/layout.html
+
     </script>
 </th:block>
 </body>

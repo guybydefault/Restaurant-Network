@@ -3,7 +3,6 @@ package ru.guybydefault.restnetwork.entity;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Embeddable
@@ -14,11 +13,11 @@ public class CookPreferences {
 
     @Min(4)
     @Max(10)
-    private int preferedHoursPerDay;
+    private int preferredHoursPerDay;
 
-    private boolean prefersEarlyShifts;
+    private boolean availableEarlyShifts;
 
-    private boolean prefersLateShifts;
+    private boolean availableLateShifts;
 
     /**
      * <strong>workDays</strong> and <strong>weekDays</strong> describe employee's working schedule (2/2 5/2 etc)
@@ -36,11 +35,11 @@ public class CookPreferences {
     }
 
 
-    public CookPreferences(@Min(4) @Max(10) int availableHoursPerDay, @Min(4) @Max(10) int preferred, boolean prefersEarlyShifts, boolean prefersLateShifts, @Min(1) int workDays, @Min(1) int weekDays) {
+    public CookPreferences(@Min(4) @Max(10) int availableHoursPerDay, @Min(4) @Max(10) int preferred, boolean availableEarlyShifts, boolean availableLateShifts, @Min(1) int workDays, @Min(1) int weekDays) {
         this.availableHoursPerDay = availableHoursPerDay;
-        this.preferedHoursPerDay = preferred;
-        this.prefersEarlyShifts = prefersEarlyShifts;
-        this.prefersLateShifts = prefersLateShifts;
+        this.preferredHoursPerDay = preferred;
+        this.availableEarlyShifts = availableEarlyShifts;
+        this.availableLateShifts = availableLateShifts;
         this.workDays = workDays;
         this.weekDays = weekDays;
     }
@@ -53,28 +52,28 @@ public class CookPreferences {
         this.availableHoursPerDay = availableHoursPerDay;
     }
 
-    public int getPreferedHoursPerDay() {
-        return preferedHoursPerDay;
+    public int getPreferredHoursPerDay() {
+        return preferredHoursPerDay;
     }
 
-    public void setPreferedHoursPerDay(int preferedHoursPerDay) {
-        this.preferedHoursPerDay = preferedHoursPerDay;
+    public void setPreferredHoursPerDay(int preferedHoursPerDay) {
+        this.preferredHoursPerDay = preferedHoursPerDay;
     }
 
-    public boolean prefersEarlyShifts() {
-        return prefersEarlyShifts;
+    public boolean isAvailableEarlyShifts() {
+        return availableEarlyShifts;
     }
 
-    public void setPrefersEarlyShifts(boolean prefersEarlyShifts) {
-        this.prefersEarlyShifts = prefersEarlyShifts;
+    public void setAvailableEarlyShifts(boolean prefersEarlyShifts) {
+        this.availableEarlyShifts = prefersEarlyShifts;
     }
 
-    public boolean prefersLateShifts() {
-        return prefersLateShifts;
+    public boolean isAvailableLateShifts() {
+        return availableLateShifts;
     }
 
-    public void setPrefersLateShifts(boolean prefersLateShifts) {
-        this.prefersLateShifts = prefersLateShifts;
+    public void setAvailableLateShifts(boolean prefersLateShifts) {
+        this.availableLateShifts = prefersLateShifts;
     }
 
     public int getWorkDays() {
@@ -93,21 +92,22 @@ public class CookPreferences {
         this.weekDays = weekDays;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CookPreferences that = (CookPreferences) o;
         return availableHoursPerDay == that.availableHoursPerDay &&
-                preferedHoursPerDay == that.preferedHoursPerDay &&
-                prefersEarlyShifts == that.prefersEarlyShifts &&
-                prefersLateShifts == that.prefersLateShifts &&
+                preferredHoursPerDay == that.preferredHoursPerDay &&
+                availableEarlyShifts == that.availableEarlyShifts &&
+                availableLateShifts == that.availableLateShifts &&
                 workDays == that.workDays &&
                 weekDays == that.weekDays;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(availableHoursPerDay, preferedHoursPerDay, prefersEarlyShifts, prefersLateShifts, workDays, weekDays);
+        return Objects.hash(availableHoursPerDay, preferredHoursPerDay, availableEarlyShifts, availableLateShifts, workDays, weekDays);
     }
 }

@@ -3,7 +3,7 @@
 
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">КиноГайд</a>
+    <a class="navbar-brand" href="#">Restaurant Network</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -13,43 +13,14 @@
         <ul class="navbar-nav mr-auto">
             <li th:fragment="menuItem (path,title)" th:class="${title==menu ? 'nav-item active' : 'nav-item'}">
                 <a class="nav-link" th:text="${title}" th:href="@{__${path}__}">
-                    Название пункта меню
+                    Menu item
                 </a>
             </li>
-            <li th:replace="::menuItem ('/film/billboard','Афиша')">
+            <li th:replace="::menuItem ('/restaurants/list','Restaurants')">
             </li>
-
-            <li th:replace="::menuItem ('path','Кинотеатр')">
-            </li>
-
-            <th:block th:if="${loggedUser != null}">
-                <li th:class="${'Мои Заказы'==menu ? 'nav-item active' : 'nav-item'}">
-                    <a class="nav-link" th:href="@{/order(user=${loggedUser.id})}">
-                        Мои Заказы
-                    </a>
-                </li>
-                <li th:class="${'Мои Оценки'==menu ? 'nav-item active' : 'nav-item'}">
-                    <a class="nav-link" th:href="@{/rating(user=${loggedUser.id})}">
-                        Мои Оценки
-                    </a>
-                </li>
-            </th:block>
-        </ul>
-        <ul class="navbar-nav ml-auto mr-2">
-            <li th:class="${'Вход'==menu ? 'nav-item active' : 'nav-item'}" th:if="${loggedUser == null}">
-                <a class="nav-link" th:href="@{/user/login}">Вход</a>
-            </li>
-            <li th:class="${'Регистрация'==menu ? 'nav-item active pull-right' : 'nav-item pull-right'}" th:if="${loggedUser == null}">
-                <a class="nav-link" th:href="@{/user/register}">Регистрация</a>
-            </li>
-            <li class="nav-item ml-auto" th:if="${loggedUser != null}">
-                <a class="nav-link" href="/user/logout" th:text="'Выход (' + ${loggedUser.name} + ')'">Выйти</a>
+            <li th:replace="::menuItem ('/cooks/list','Cooks')">
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Поиск" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
-        </form>
     </div>
 </nav>
 </body>

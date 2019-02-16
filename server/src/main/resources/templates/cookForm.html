@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::content},~{::head},'CookForm', ~{::scripts})}">
+<head>
+
+</head>
+<body>
+<th:block th:fragment="content">
+    <h3>Edit cook</h3>
+    <form th:action="@{/cooks/cook}" th:object="${cook}" method="post">
+        <input th:field="*{id}" type="hidden"/>
+        <div class="form-group">
+            <label for="fullName">Full name:</label>
+            <input th:field="*{fullName}" type="text" class="form-control">
+        </div>
+        <div th:if="${#fields.hasErrors('fullName')}">
+            <div  th:each="err : ${#fields.errors('fullName')}" th:text="${err}" class="alert alert-danger">Input is incorrect</div>
+        </div>
+        <div class="form-group">
+            <label for="restaurant">Restaurant:</label>
+            <select th:field="*{restaurant}" class="form-control">
+                <option th:each="restaurant : ${restaurants}" th:value="${restaurant.id}"
+                        th:text="${restaurant.name}"></option>
+            </select>
+        </div>
+        <div th:if="${#fields.hasErrors('restaurant')}">
+            <div  th:each="err : ${#fields.errors('restaurant')}" th:text="${err}" class="alert alert-danger">Input is incorrect</div>
+        </div>
+        <div class="form-group">
+            <div>
+                <span>Availabiliy</span>
+            </div>
+            <div class="form-check">
+                <input th:field="*{cookPreferences.availableEarlyShifts}" class="form-check-input" type="checkbox">
+                <label for="availableEarlyShifts">Early shifts</label>
+            </div>
+            <div class="form-check">
+                <input th:field="*{cookPreferences.availableLateShifts}" class="form-check-input" type="checkbox">
+                <label for="availableLateShifts">Late shifts</label>
+            </div>
+            <div class="form-group">
+                <label for="availableHoursPerDay">Available hours per day (from 4 to 10):</label>
+                <input th:field="*{cookPreferences.availableHoursPerDay}" type="text" class="form-control">
+            </div>
+            <div th:if="${#fields.hasErrors('cookPreferences.availableHoursPerDay')}">
+                <div  th:each="err : ${#fields.errors('cookPreferences.availableHoursPerDay')}" th:text="${err}" class="alert alert-danger">Input is incorrect</div>
+            </div>
+            <div class="form-group">
+                <label for="preferredHoursPerDay">Preferred hours per day (from 4 to 10):</label>
+                <input th:field="*{cookPreferences.preferredHoursPerDay}" type="text" class="form-control">
+            </div>
+            <div th:if="${#fields.hasErrors('cookPreferences.preferredHoursPerDay')}">
+                <div  th:each="err : ${#fields.errors('cookPreferences.preferredHoursPerDay')}" th:text="${err}" class="alert alert-danger">Input is incorrect</div>
+            </div>
+            <div class="form-group">
+                <label for="workDays">Consecutive work days:</label>
+                <input th:field="*{cookPreferences.workDays}" type="text" class="form-control">
+            </div>
+            <div th:if="${#fields.hasErrors('cookPreferences.workDays')}">
+                <div  th:each="err : ${#fields.errors('cookPreferences.workDays')}" th:text="${err}" class="alert alert-danger">Input is incorrect</div>
+            </div>
+            <div class="form-group">
+                <label for="weekDays">Consecutive weekdays:</label>
+                <input th:field="*{cookPreferences.weekDays}" type="text" class="form-control">
+            </div>
+            <div th:if="${#fields.hasErrors('cookPreferences.weekDays')}">
+                <div  th:each="err : ${#fields.errors('cookPreferences.weekDays')}" th:text="${err}" class="alert alert-danger">Input is incorrect</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+    </form>
+
+</th:block>
+<th:block th:fragment="scripts">
+
+</th:block>
+</body>
+</html>
