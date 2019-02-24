@@ -1,6 +1,6 @@
 package ru.guybydefault.restnetwork.response;
 
-import ru.guybydefault.restnetwork.planning.HardSoftScore;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
 public class RosterBuildResultMessage extends RestControllerResponseMessage {
     public RosterBuildResultMessage(int statusCode, String message, HardSoftScore score) {

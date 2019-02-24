@@ -2,6 +2,8 @@ package ru.guybydefault.restnetwork.entity;
 
 
 import com.fasterxml.jackson.annotation.*;
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 @Entity
+@PlanningEntity
 public class Shift extends BaseEntity {
 
     /**
@@ -58,6 +61,7 @@ public class Shift extends BaseEntity {
         this.cook = cook;
     }
 
+    @PlanningVariable(valueRangeProviderRefs = {"cookRange"}, nullable = true)
     public Cook getCook() {
         return cook;
     }

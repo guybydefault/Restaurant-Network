@@ -12,6 +12,7 @@ import ru.guybydefault.restnetwork.entity.repository.CookRepository;
 import ru.guybydefault.restnetwork.entity.repository.CuisineRepository;
 import ru.guybydefault.restnetwork.entity.repository.RestaurantRepository;
 import ru.guybydefault.restnetwork.entity.repository.ShiftRepository;
+import ru.guybydefault.restnetwork.planning.PlanningService;
 import ru.guybydefault.restnetwork.service.CookService;
 
 import javax.transaction.Transactional;
@@ -38,6 +39,7 @@ public class CookController {
     @Autowired
     private CookService cookService;
 
+
     @ModelAttribute("cuisines")
     public Iterable<Cuisine> cuisineListModelAttribute() {
         return cuisineRepository.findAll();
@@ -60,8 +62,6 @@ public class CookController {
 
     @RequestMapping(value = "createCook", method = RequestMethod.GET)
     public String initSubmitCookForm(Model model, Cook cook) {
-        System.out.println(model.containsAttribute("cook"));
-        model.addAttribute("cook", cook);
         model.addAttribute("restaurants", restaurantRepository.findAll());
         return "cookForm";
     }

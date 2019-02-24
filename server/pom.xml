@@ -80,11 +80,11 @@
             </exclusions>
         </dependency>
         <!--For hot swapping (fast reload of thymeleaf templates, static and event classes and etc when I click BUILD in idea just in one second ;)-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-devtools</artifactId>-->
+            <!--<version>${spring-boot.version}</version>-->
+        <!--</dependency>-->
         <!-- ***Spring Boot*** -->
 
         <!--Data handling-->
@@ -145,6 +145,17 @@
             <scope>test</scope>
         </dependency>
         <!--Testing-->
+
+        <dependency>
+            <groupId>org.optaplanner</groupId>
+            <artifactId>optaplanner-core</artifactId>
+            <version>7.17.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.optaplanner</groupId>
+            <artifactId>optaplanner-benchmark</artifactId>
+        </dependency>
+
     </dependencies>
 
 

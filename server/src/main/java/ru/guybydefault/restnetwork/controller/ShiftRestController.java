@@ -1,7 +1,6 @@
 package ru.guybydefault.restnetwork.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.guybydefault.restnetwork.entity.Cuisine;
 import ru.guybydefault.restnetwork.entity.Restaurant;
 import ru.guybydefault.restnetwork.entity.Shift;
-import ru.guybydefault.restnetwork.planning.*;
 import ru.guybydefault.restnetwork.entity.repository.CuisineRepository;
 import ru.guybydefault.restnetwork.entity.repository.RestaurantRepository;
 import ru.guybydefault.restnetwork.entity.repository.ShiftRepository;
+import ru.guybydefault.restnetwork.planning.PlanningData;
+import ru.guybydefault.restnetwork.planning.PlanningService;
 import ru.guybydefault.restnetwork.response.ErrorMessage;
 import ru.guybydefault.restnetwork.response.RestControllerResponseMessage;
 
@@ -36,10 +36,8 @@ public class ShiftRestController {
     @Autowired
     private CuisineRepository cuisineRepository;
 
-
     @Autowired
-    @Qualifier("defaultPlanningConfiguration")
-    private PlanningConfiguration planningConfiguration;
+    private PlanningService planningService;
 
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -79,19 +77,13 @@ public class ShiftRestController {
         OffsetDateTime endPlanningTime = startPlanningTime.plusDays(30).withHour(restaurant.getClosingHour());
 
         List<Cuisine> cuisineList = new ArrayList<>();
-        cuisineRepository.findAll().forEach(c -> {
-            cuisineList.add(c);
-        });
+        cuisineRepository.findAll().forEach(cuisineList::add);
 
-        RosterIncrementSolutionBuilder rosterIncrementSolutionBuilder = new RosterIncrementSolutionBuilder(planningConfiguration);
         PlanningData planningData = new PlanningData(startPlanningTime, endPlanningTime, 4, 10, cuisineList, restaurant.getCooks(), restaurant);
-        RosterIncrementSolution rosterIncrementSolution = rosterIncrementSolutionBuilder.build(planningData);
-        for (List<Shift> shiftDay : rosterIncrementSolution.getShiftDayList()) {
-            for (Shift shift : shiftDay) {
-                shiftRepository.save(shift);
-            }
-        }
-        rosterIncrementSolutionBuilder = null;
-        return new ResponseEntity<RestControllerResponseMessage>(new RestControllerResponseMessage(HttpStatus.OK.value(), rosterIncrementSolution.getHardSoftScore().toString()), HttpStatus.OK);
+        List<Shift> solution = planningService.solve(planningData);
+//        RosterIncrementSolution rosterIncrementSolution = rosterIncrementSolutionBuilder.build(planningData);
+        shiftRepository.save(solution);
+
+        return new ResponseEntity<RestControllerResponseMessage>(new RestControllerResponseMessage(HttpStatus.OK.value(), "solved"), HttpStatus.OK);
     }
 }

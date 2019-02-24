@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+
+    <solutionClass>ru.guybydefault.restnetwork.planning.CookRosteringSolution</solutionClass>
+    <entityClass>ru.guybydefault.restnetwork.entity.Shift</entityClass>
+
+    <scoreDirectorFactory>
+        <easyScoreCalculatorClass>ru.guybydefault.restnetwork.planning.CookRosteringEasyScoreCalculator</easyScoreCalculatorClass>
+    </scoreDirectorFactory>
+
+</solver>
